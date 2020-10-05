@@ -71,23 +71,25 @@ Calculate:
 		XOR AX, AX
 		MOV AX, a_by_Xn
 		ADD AX, c		
-		MOV a_by_Xn_plus_c, AX
-		
-		;finally generate X0
-		XOR AX, AX
-		XOR AH,AH
-		MOV AX, a_by_Xn_plus_c
-		XOR DX,DX
-		DIV m
+		; AX is a_by_Xn_plus_c
+		;finally generate Xn
+		step:				
+		MOV BX, 0Fh
+		SUB AX,BX
+		CMP AX, 00h
+		JL Save
+		JMP step
 		
 		;save the modular 
-		MOV Xn, AH
-				     				       	
+	    Save:
+		ADD AX,BX
+		MOV Xn, AL		     				       	
    		XOR CX,CX
-	    Mov CL, numbers_generated_counter   ;veces en las que se repetira
+	    MOV CL, numbers_generated_counter   ;veces en las que se repetira
 	    XOR BX, BX						
 	    XOR AX,AX
-		
+				     				       	
+   				
 		RNG:
 		JMP Way
 		RETURN:
